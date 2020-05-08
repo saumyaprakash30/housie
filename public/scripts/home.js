@@ -1,5 +1,15 @@
 var socket = io()
 
+
+
+function startGame(){
+    socket.emit('startGame',(err)=>{
+        if(err){
+            alert(err);
+        }
+    })
+}
+
 function getList(){
     socket.emit('getList',(val)=>{
         console.log(val);
@@ -31,3 +41,8 @@ socket.on('updateList',(users)=>{
     console.log("users in this room ",users);
     
 })
+
+socket.on('gameStarted',()=>{
+    document.getElementById('gaming').style.display = 'block';
+})
+

@@ -71,15 +71,30 @@ io.on('connection',(socket)=>{
     socket.on('disconnect',()=>{
         console.log(`user disconnected ${socket.id  }`);
         var deletedUser = users.removeUser(socket.id);
-        if(deletedUser.admin==true){
+        if(deletedUser && deletedUser.admin==true){
             users.setAdmin(deletedUser.roomId);
             
         }
+        if(deletedUser){
+            io.to(deletedUser.roomId).emit('updateList',users.getUsernameList(deletedUser.roomId))        
+
+        }
         // console.log("delUser ",deletedUser);
-        io.to(deletedUser.roomId).emit('updateList',users.getUsernameList(deletedUser.roomId))        
         
     })
     
+    socket.on('startGame',(callback)=>{
+        var user = users.getUser(socket.id);
+        var admin = user.admin;
+        if(admin){
+            io.to(user.roomId).emit('gameStarted')
+            
+        }
+        else{
+            return callback('Admin Will start game!')
+        }
+    })
+
 })
 
 // var home = require('./routes/home');
