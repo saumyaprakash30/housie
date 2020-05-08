@@ -27,7 +27,14 @@ io.on('connection',(socket)=>{
             if(delUser){
                 io.to(delUser.roomId).emit('updateList',users.getUsernameList(delUser.roomId));
             }
-            users.addUser(socket.id,param.username,param.roomId);
+            var user = users.getAdmin(param.roomId);            
+            if(user){
+                admin = false;
+            }else{
+                
+                admin=true;
+            }
+            users.addUser(socket.id,param.username,param.roomId,admin);
             // console.log(users.getAllUsers());
             socket.join(param.roomId);
             io.to(param.roomId).emit('updateList',users.getUsernameList(param.roomId))
@@ -64,6 +71,10 @@ io.on('connection',(socket)=>{
     socket.on('disconnect',()=>{
         console.log(`user disconnected ${socket.id  }`);
         var deletedUser = users.removeUser(socket.id);
+        if(deletedUser.admin==true){
+            users.setAdmin(deletedUser.roomId);
+            
+        }
         // console.log("delUser ",deletedUser);
         io.to(deletedUser.roomId).emit('updateList',users.getUsernameList(deletedUser.roomId))        
         

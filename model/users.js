@@ -4,8 +4,8 @@ class Users{
         this.users=[]
     }
 
-    addUser(id,username,roomId){
-        var user = {id,username,roomId};
+    addUser(id,username,roomId,admin){
+        var user = {id,username,roomId,admin};
         this.users.push(user);
     }
     removeUser(id){
@@ -15,11 +15,19 @@ class Users{
         }
         return user;
     }
+    setAdmin(roomId){
+        var user = this.users.filter((user)=>user.roomId===roomId)[0];       
+        var index = this.users.indexOf(user)
+        this.users[index].admin = true;       
+    }
     getUser(id){
         return this.users.filter((user)=>user.id===id)[0];
         
     }
-
+    getAdmin(roomId){
+        var user = this.users.filter((user)=> user.roomId===roomId && user.admin===true)[0];
+        return user;
+    }
     getUsernameList(roomId){
         var users = this.users.filter((user)=> user.roomId===roomId);
         var userList = users.map((user)=> user.username);
