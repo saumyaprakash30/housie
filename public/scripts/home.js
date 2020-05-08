@@ -1,8 +1,16 @@
 var socket = io()
+
+function getList(){
+    socket.emit('getList',(val)=>{
+        console.log(val);
+        
+    })
+}
+
 function joinRoom(){
-    var username = document.getElementById('username').value;
-    var room = document.getElementById('room').value;
-    var param = {username:username,room:room};
+    var username = document.getElementById('username').value.trim();
+    var roomId = document.getElementById('roomId').value.trim();
+    var param = {username:username,roomId:roomId};
     // if(username && room){
     //     console.log(username,room);
     //     
@@ -19,3 +27,7 @@ function joinRoom(){
         }
     });
 }
+socket.on('updateList',(users)=>{
+    console.log("users in this room ",users);
+    
+})

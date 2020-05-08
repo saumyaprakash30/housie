@@ -21,22 +21,52 @@ io.on('connection',(socket)=>{
     
     socket.on('join',(param,calback)=>{
         // console.log("joining to room "+ param.username);
-        if(param.username && param.room){
-            console.log(`inside ${param.username} ${param.room}`);
-            users.addUser(socket.id,param.username,param.room);
-            console.log(users.getAllUsers());
-            
+        if(param.username && param.roomId){
+            console.log(`${param.username} joined ${param.roomId}`);
+            var delUser = users.removeUser(socket.id)
+            if(delUser){
+                io.to(delUser.roomId).emit('updateList',users.getUsernameList(delUser.roomId));
+            }
+            users.addUser(socket.id,param.username,param.roomId);
+            // console.log(users.getAllUsers());
+            socket.join(param.roomId);
+            io.to(param.roomId).emit('updateList',users.getUsernameList(param.roomId))
         }
         else{
             return calback('Fill both username and roomId!')
         }
-        calback()
+        // calback()
+    })
+
+    socket.on('getList',(callback)=>{
+        var user = users.getUser(socket.id);
+        // console.log("all users",users.getAllUsers());
+        
+        if(user){
+            // console.log(user);
+            // console.log("all users",users.getAllUsers());
+            
+            // console.log(users.getUsernameList(user.roomId));
+            
+            return callback(users.getUsernameList(user.roomId))
+            // console.log(user);
+        // return callback("hello" + user.username)
+        }
+        else{
+            console.log("no user ");
+            
+        }
+        callback("hey")
+        // var userlist = u./sers.getUserameList()
     })
 
     
     socket.on('disconnect',()=>{
         console.log(`user disconnected ${socket.id  }`);
-        users.removeUser(socket.id);
+        var deletedUser = users.removeUser(socket.id);
+        // console.log("delUser ",deletedUser);
+        io.to(deletedUser.roomId).emit('updateList',users.getUsernameList(deletedUser.roomId))        
+        
     })
     
 })

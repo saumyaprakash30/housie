@@ -17,9 +17,10 @@ class Users{
     }
     getUser(id){
         return this.users.filter((user)=>user.id===id)[0];
+        
     }
 
-    getUserameList(roomId){
+    getUsernameList(roomId){
         var users = this.users.filter((user)=> user.roomId===roomId);
         var userList = users.map((user)=> user.username);
         return userList;
