@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Housie</title>
+    <title>Home | Housie</title>
 </head>
 <body>
-    Welcome
+    <div id="joining" style="text-align: center;">
+        <h1>Welcome to Housie</h1>
+        
+            username: <input id="username" type="text" name="username" >
+            <br>
+            room : <input id="room" type="text" name="room">
+            <br>
+
+            <button id="btnJoin" onclick="joinRoom()">Join</button>
+        
+    </div>
+    <div id="gaming" style="display: none;">
+        gaming
+    </div>
     
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/scripts/home.js"></script>
 </body>
 </html>
