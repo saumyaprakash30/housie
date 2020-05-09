@@ -23,15 +23,28 @@
     </div>
     <div id="waiting" style="display: none;">
         <button id="startGame"  onclick="startGame()" >Start Game</button>
-        <div id="userList">
-            
-        </div>
+        
         <button value="2" onclick="numberCheck(this)">check</button>
 
     </div>
+    
     <div id="gaming" style="display: none;">
         <h1>Game Started!</h1>
+        <div id="picked"></div>
+        <div id="board">
+            <span>Board</span><br>
+        </div>
+        <div id="scoreBoard" >
+            <p>Row1 winner: </p>
+            <p>Row2 winner: </p>
+            <p>Row3 winner: </p>
+            <p>fullHouse winner: </p>
+        </div>
+        <div id="ticket"></div>
+
     </div>
+
+    <div id="userList"></div>
     
     <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts/home.js"></script>

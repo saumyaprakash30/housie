@@ -1,9 +1,16 @@
 module.exports = async(roomId,id,io,games,users)=>{
     // assuming ticket has 3 rows and every row contain 5 elements
+    // row4 - full house 
     var player = games.getPlayer(roomId,id);
-    if(checkRow(1,player,roomId) || checkRow(2,player,roomId) || checkRow(3,player,roomId) || checkRow(4,player,roomId)){
-        var winners = getWinnerDetail(roomId)
-        io.to(roomId).emit('scoreChange',winners);
+    var r1 = checkRow(1,player,roomId);
+    var r2 = checkRow(2,player,roomId);
+    var r3 = checkRow(3,player,roomId);
+    var r4 = checkRow(4,player,roomId);
+    if(r1 || r2 || r3 || r4){
+        console.log("scoreBoardChange");
+        
+        var winner = getWinnerDetail(roomId)
+        io.to(roomId).emit('scoreChange',winner);
     }
     
 
@@ -27,7 +34,7 @@ module.exports = async(roomId,id,io,games,users)=>{
                 winners.push('');
             }
         }
-        // console.log("winners",winners,"winnersend");
+        console.log("winners",winners,"winnersend");
         
         return winners;
         
@@ -36,8 +43,10 @@ module.exports = async(roomId,id,io,games,users)=>{
     
     
     function checkRow(row,player,roomId){
+        console.log("checkRow");
+        
         switch(row){
-            case 0:{
+            case 1:{
                 var count = 0;
                 for(let i =0;i<player.punchedTicket.length;i++){
                     var index = player.ticket.indexOf(player.punchedTicket[i]);
@@ -51,7 +60,7 @@ module.exports = async(roomId,id,io,games,users)=>{
                 }
                 return 0;
             }
-            case 1:{
+            case 2:{
                 var count =0;
                 for(let i =0;i<player.punchedTicket.length;i++){
                     var index = player.ticket.indexOf(player.punchedTicket[i]);

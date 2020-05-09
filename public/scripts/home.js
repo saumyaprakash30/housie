@@ -57,16 +57,29 @@ socket.on('updateList',(users)=>{
 })
 
 socket.on('gameStarted',()=>{
-    // console.log();
-    
+    console.log("started");
+    document.getElementById('waiting').style.display = 'none';
     document.getElementById('gaming').style.display = 'block';
+
 })
 
 socket.on('generateTicket',(callback)=>{
-    var ticket = generateTicket(10,5)
+    var ticket = generateTicket(100,15)
     console.log(ticket);
     // return ticket;
     socket.emit('generatedTicket',ticket);
+    var post ='';
+    for(let i=0;i<ticket.length;i++){
+        post+='<button onclick="numberCheck(this)" value="'+ticket[i]+'">'+ticket[i]+'</button>'
+        if((i+1)%5==0){
+            post+='<br>'
+        }
+    }
+    console.log(post);
+    
+    document.getElementById('ticket').innerHTML = post;
+    document.getElementById('waiting').style.display = 'none';
+    document.getElementById('gaming').style.display = 'block';
         
 })
 
@@ -96,5 +109,24 @@ function numberCheck(that){
 
 socket.on('pickedNumber',(pnumber)=>{
     console.log(pnumber);
+    document.getElementById('picked').innerHTML = pnumber;
+    // var post = `<span> ${pnumber} </span>`;
+    var post = document.createElement('span');
+    post.innerHTML = ` ${pnumber} `;
+    document.getElementById('board').appendChild(post)
+    
+})
+socket.on('scoreChange',(winner)=>{
+    console.log(winner);
+    var post = '';
+    for(let i=0;i<winner.length;i++){
+        if(i==3){
+            post+='<p>Full House Winner: '+winner[i]+'</p>'
+        }else{
+            post+='<p>Row'+(i+1)+' winner: '+winner[i]+'</p>';
+
+        }
+    }
+    document.getElementById('scoreBoard').innerHTML = post;
     
 })

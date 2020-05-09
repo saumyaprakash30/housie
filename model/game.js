@@ -88,7 +88,7 @@ class Game{
         
     }
     addWinner(row,roomId,id){
-        var game = this.games.getGame(roomId)[0];
+        var game = this.getGame(roomId)[0];
         // var player = this.getPlayer(roomId,id);
         if(row==1){
             if(!game.row1Winner){

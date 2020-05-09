@@ -166,28 +166,27 @@ io.on('connection',(socket)=>{
         if(user){
             console.log(user);
             
-            scoreCheck(user.roomId,user.id,io,games,users)
-            // var game = games.getGame(user.roomId)[0];
-            // if(game){
-            //     var player = games.getPlayer(user.roomId,user.id);
-            //     if(player){
-            //         var checkPicked = game.pickedNumbers.indexOf((number));
-            //         var checkTicket = player.ticket.indexOf(number)
-            //         if(checkPicked!=-1 && checkTicket!=-1){
-            //             games.punchTicket(user.roomId,user.id,number)
-            //             scoreCheck(user.roomId,user.id,io,games,users)
-            //             return callback(1);
-            //         }
-            //         else{
-            //             console.log("not ok");
-            //             return callback(0);
-            //         }
-            //     }
-            //     else{
-            //         console.log("game not found");
-            //         return callback(0);
-            //     }
-            // }
+            var game = games.getGame(user.roomId)[0];
+            if(game){
+                var player = games.getPlayer(user.roomId,user.id);
+                if(player){
+                    var checkPicked = game.pickedNumbers.indexOf((number));
+                    var checkTicket = player.ticket.indexOf(number)
+                    if(checkPicked!=-1 && checkTicket!=-1){
+                        games.punchTicket(user.roomId,user.id,number)
+                        scoreCheck(user.roomId,user.id,io,games,users)
+                        return callback(1);
+                    }
+                    else{
+                        console.log("not ok");
+                        return callback(0);
+                    }
+                }
+                else{
+                    console.log("game not found");
+                    return callback(0);
+                }
+            }
         }
         
         
