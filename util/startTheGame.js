@@ -1,4 +1,4 @@
-module.exports = async (roomId,io)=>{
+module.exports = async (roomId,io,games)=>{
     var count =1;
     var allNumbers = []
     
@@ -10,7 +10,10 @@ module.exports = async (roomId,io)=>{
     console.log("game is startded in ", roomId);
     function fun1(){
         if(allNumbers.length==0){
+            games.setGameOver(roomId);
+            
             clearInterval(interval)
+
             console.log("game finised");
             
         }
@@ -22,14 +25,15 @@ module.exports = async (roomId,io)=>{
             console.log(allNumbers.splice(index,1));
         }
 
-
+        games.addPickednumbers(num,roomId);
         io.to(roomId).emit('pickedNumber',num);
-        console.log(num,allNumbers);
+        // console.log(num,allNumbers);
         }
         
         
     }
     var interval = setInterval(fun1,5000);
+
 
 
     

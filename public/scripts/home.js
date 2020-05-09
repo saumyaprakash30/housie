@@ -63,7 +63,7 @@ socket.on('gameStarted',()=>{
 })
 
 socket.on('generateTicket',(callback)=>{
-    var ticket = generateTicket(100,15)
+    var ticket = generateTicket(10,5)
     console.log(ticket);
     // return ticket;
     socket.emit('generatedTicket',ticket);
@@ -82,6 +82,16 @@ var generateTicket = (max,count)=>{
     }
     return uniqueNubers;
 
+}
+function numberCheck(that){
+    console.log("value",that.value);
+    
+    socket.emit('checkNumber',that.value,(val)=>{
+        console.log("msg",val);
+        if(val){
+            that.disabled = true;
+        }
+    });
 }
 
 socket.on('pickedNumber',(pnumber)=>{

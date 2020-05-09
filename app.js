@@ -78,8 +78,17 @@ io.on('connection',(socket)=>{
     socket.on('disconnect',()=>{
         console.log(`user disconnected ${socket.id  }`);
         var deletedUser = users.removeUser(socket.id);
-        if(deletedUser && users.getUserCount(deletedUser.roomId) && deletedUser.admin==true ){
-            users.setAdmin(deletedUser.roomId);
+        if(deletedUser && deletedUser.admin==true ){
+            if(users.getUserCount(deletedUser.roomId)){
+                users.setAdmin(deletedUser.roomId);
+
+            }else{
+                var game = games.getGame(deletedUser.roomId)[0];
+                if(game && game.gameOver){
+                    var index = games.games.indexOf(game);
+                    games.games.splice(index,1);
+                }
+            }
             
         }
         if(deletedUser){
@@ -95,10 +104,22 @@ io.on('connection',(socket)=>{
         var user = users.getUser(socket.id);
         
         if(user && user.admin){
-            io.to(user.roomId).emit('generateTicket');
-            games.addGame(user.roomId);
-            console.log(games.games);
-            ;
+            var game = games.getGame(user.roomId)[0];
+            if(game){
+                console.log(game);
+                
+                if(game.gameOver){
+                    //remove game
+                }
+                else{
+                    callback('Game already started!')
+                }
+            }else{
+                io.to(user.roomId).emit('generateTicket');
+                games.addGame(user.roomId);
+                console.log(games.games);
+            }
+            
             // var promise = new Promise((resolve,reject)=>{
             //     var count =0;
             //     var playerCount = users.getUserCount(user.roomId);
@@ -159,7 +180,7 @@ io.on('connection',(socket)=>{
             // console.log(games.getPlayer(user.roomId,user.id));
             if(users.getUserCount(user.roomId) == games.getPlayerCount(user.roomId)){
                 // io.to(user.roomId).emit('gameStarted')
-                startTheGame(user.roomId,io).then(console.log("game Over"));
+                startTheGame(user.roomId,io,games)
                 
             } 
 
@@ -171,6 +192,34 @@ io.on('connection',(socket)=>{
         
     })
     
+    socket.on('checkNumber',(number,callback)=>{
+        number = parseInt(number);
+        var user = users.getUser(socket.id);
+        if(user){
+            var game = games.getGame(user.roomId)[0];
+            if(game){
+                var player = games.getPlayer(user.roomId,user.id);
+                if(player){
+                    var checkPicked = game.pickedNumbers.indexOf((number));
+                    var checkTicket = player.ticket.indexOf(number)
+                    if(checkPicked!=-1 && checkTicket!=-1){
+                        games.punchTicket(user.roomId,user.id,number)
+                        return callback(1);
+                    }
+                    else{
+                        console.log("not ok");
+                        return callback(0);
+                    }
+                }
+                else{
+                    console.log("game not found");
+                    return callback(0);
+                }
+                }
+        }
+        
+        
+    })
 
 })
 

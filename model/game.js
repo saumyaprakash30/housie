@@ -1,22 +1,44 @@
 class Game{
     constructor(){
         this.games=[];
-        this.row1Winner;
-        this.row2Winner;
-        this.row3Winner;
-        this.fullHouseWinner;
+        
+        
     }
-
+    
     addGame(roomId){
         this.games.push({
             roomId:roomId,
             pickedNumbers:[],
-            players:[]
+            players:[],
+            gameOver:false,
+            row1Winner:null,
+            row2Winner:null,
+            row3Winner:null,
+            fullHouseWinner:null
         });
     }
+    setGameOver(roomId){
+        var index = this.games.indexOf(this.getGame(roomId)[0]);
+        console.log("index",index);
+        
+        if(index!=-1){
+            this.games[index].gameOver = true;
+        }
+    }
+    addPickednumbers(number,roomId){
+        var index = this.games.indexOf(this.getGame(roomId)[0]);
+        if(index!=-1){
+            this.games[index].pickedNumbers.push(number);
+
+        }
+    }
     removePlayer(roomId,id){
-        var gameList = this.games.filter((game)=>game.players.filter((player)=>player.id!==id))
-        console.log(gameList);
+        var index = this.games.indexOf(this.getGame(roomId)[0]);
+        var indexPlayer = this.games[index].players.indexOf(this.getPlayer(roomId,id));
+        if(indexPlayer!=-1){
+            return this.games[index].players.splice(indexPlayer,1);
+             
+        }
         
     }
     getPlayerCount(roomId){
@@ -26,6 +48,7 @@ class Game{
         var players = game.players;
         return players.length;
     }
+    
     getPlayer(roomId,id){
         var game = this.games.filter((game)=>game.roomId==roomId)[0];
         var players = game.players;
@@ -62,6 +85,22 @@ class Game{
         })
 
         // console.log(this.games);
+        
+    }
+    punchTicket(roomId,id,number){
+        var game = this.getGame(roomId)[0];
+        var index = this.games.indexOf(game);
+        var player = this.getPlayer(roomId,id);
+        var indexPlayer = this.games[index].players.indexOf(player);
+        if(indexPlayer!=-1){
+            var indexPunch = this.games[index].players[indexPlayer].punchedTicket.indexOf(number);
+            if(indexPunch==-1){
+                this.games[index].players[indexPlayer].punchedTicket.push(number);
+
+            }
+            // this.games[index].punchedTicket.push(number)
+        }
+        console.log("punched",this.games[index].players[indexPlayer]);
         
     }
     
