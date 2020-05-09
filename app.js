@@ -8,6 +8,7 @@ const dotenv = require('dotenv').config()
 const {Users} = require('./model/users');
 const {Game} = require('./model/game');
 var generateTicket = require('./util/genrateTicket');
+var startTheGame = require('./util/startTheGame');
 
 var users = new Users();
 var games = new Game();
@@ -151,15 +152,25 @@ io.on('connection',(socket)=>{
         if(user){
             var gameRoom = games.getGame(user.roomId);
             if(gameRoom){
-                games.addPlayer(user.roomId,socket.id,ticket)
+                games.addPlayer(user.roomId,socket.id,ticket);
             }
+            console.log("playerCount",games.getPlayerCount(user.roomId));
+            
+            // console.log(games.getPlayer(user.roomId,user.id));
+            if(users.getUserCount(user.roomId) == games.getPlayerCount(user.roomId)){
+                // io.to(user.roomId).emit('gameStarted')
+                startTheGame(user.roomId,io).then(console.log("game Over"));
+                
+            } 
 
         }
+        
         // game.addPlayer()
-        console.log(games.games);
-        ;
+        // console.log(games.games);
+        
         
     })
+    
 
 })
 

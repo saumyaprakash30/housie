@@ -56,8 +56,8 @@ socket.on('updateList',(users)=>{
     
 })
 
-socket.on('gameStarted',(ticket)=>{
-    console.log(ticket);
+socket.on('gameStarted',()=>{
+    // console.log();
     
     document.getElementById('gaming').style.display = 'block';
 })
@@ -83,3 +83,8 @@ var generateTicket = (max,count)=>{
     return uniqueNubers;
 
 }
+
+socket.on('pickedNumber',(pnumber)=>{
+    console.log(pnumber);
+    
+})
