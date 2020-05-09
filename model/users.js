@@ -33,8 +33,14 @@ class Users{
         var userList = users.map((user)=> user.username);
         return userList;
     }
+    getUserList(roomId){
+        return this.users.filter((user)=>user.roomId===roomId);;
+    }
     getAllUsers(){
         return this.users;
+    }
+    getUserCount(roomId){
+        return this.users.filter((user)=> user.roomId===roomId).length;
     }
 }
 

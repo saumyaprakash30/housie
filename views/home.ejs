@@ -19,10 +19,15 @@
             <button id="btnJoin" onclick="joinRoom()">Join</button>
             <br>
             <button id="getlist" onclick="getList()">Get list</button>
-            <button id="startGame" onclick="startGame()" >Start Game</button>
-        
+            
     </div>
+    <div id="waiting" style="display: none;">
+        <button id="startGame"  onclick="startGame()" >Start Game</button>
+        <div id="userList">
+            
+        </div>
 
+    </div>
     <div id="gaming" style="display: none;">
         <h1>Game Started!</h1>
     </div>

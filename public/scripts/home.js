@@ -33,16 +33,53 @@ function joinRoom(){
         }
         else{
             console.log("joined sucessful");
+            document.getElementById('joining').style.display = 'none';
+            document.getElementById('waiting').style.display = 'block';
             
         }
     });
 }
 socket.on('updateList',(users)=>{
     console.log("users in this room ",users);
+
+    var list = document.getElementById('userList');
+    var post = '';
+    for(let i=0;i<users.length;i++){
+        post+='<li>'+users[i]+'</li>';
+    }
+    post = '<ol>'+post+'</ol>'
+    list.innerHTML = post;
+    // list
+    // list.appendChild(post)
+    console.log(post);
+    
     
 })
 
-socket.on('gameStarted',()=>{
+socket.on('gameStarted',(ticket)=>{
+    console.log(ticket);
+    
     document.getElementById('gaming').style.display = 'block';
 })
 
+socket.on('generateTicket',(callback)=>{
+    var ticket = generateTicket(100,15)
+    console.log(ticket);
+    // return ticket;
+    socket.emit('generatedTicket',ticket);
+        
+})
+
+var generateTicket = (max,count)=>{
+    //max : number between 0 to max
+    //count : how many unique numbers
+    uniqueNubers = []
+    while(uniqueNubers.length<count){
+        var randomNumber = Math.floor(Math.random()*max)+1;
+        if(uniqueNubers.indexOf(randomNumber)==-1){
+            uniqueNubers.push(randomNumber);
+        }
+    }
+    return uniqueNubers;
+
+}

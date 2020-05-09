@@ -6,8 +6,11 @@ const bodyParser = require('body-parser');
 const socketIO = require('socket.io');
 const dotenv = require('dotenv').config()
 const {Users} = require('./model/users');
+const {Game} = require('./model/game');
+var generateTicket = require('./util/genrateTicket');
 
 var users = new Users();
+var games = new Game();
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -34,10 +37,13 @@ io.on('connection',(socket)=>{
                 
                 admin=true;
             }
+            // console.log(users.getUserCount(param.roomId));
+            
             users.addUser(socket.id,param.username,param.roomId,admin);
             // console.log(users.getAllUsers());
             socket.join(param.roomId);
             io.to(param.roomId).emit('updateList',users.getUsernameList(param.roomId))
+            calback();
         }
         else{
             return calback('Fill both username and roomId!')
@@ -71,7 +77,7 @@ io.on('connection',(socket)=>{
     socket.on('disconnect',()=>{
         console.log(`user disconnected ${socket.id  }`);
         var deletedUser = users.removeUser(socket.id);
-        if(deletedUser && deletedUser.admin==true){
+        if(deletedUser && users.getUserCount(deletedUser.roomId) && deletedUser.admin==true ){
             users.setAdmin(deletedUser.roomId);
             
         }
@@ -82,17 +88,77 @@ io.on('connection',(socket)=>{
         // console.log("delUser ",deletedUser);
         
     })
+
     
     socket.on('startGame',(callback)=>{
         var user = users.getUser(socket.id);
-        var admin = user.admin;
-        if(admin){
-            io.to(user.roomId).emit('gameStarted')
+        
+        if(user && user.admin){
+            io.to(user.roomId).emit('generateTicket');
+            games.addGame(user.roomId);
+            console.log(games.games);
+            ;
+            // var promise = new Promise((resolve,reject)=>{
+            //     var count =0;
+            //     var playerCount = users.getUserCount(user.roomId);
+            //     socket.io('generatedTicket',(params)=>{
+            //         console.log(params);
+            //         count++;
+            //     })
+            //     if(count){
+
+            //     }
+                // var roomUsers = users.getUserList(user.roomId);
+                // // console.log("roomUsers",roomUsers);
+                
+                // var players=[];
+                // for(let i=0;i<roomUsers.length;i++){
+                //     players.push(
+                //         {
+                //             id:roomUsers[i].id,
+                //             ticket:generateTicket(100,15),
+                //             score:0
+                //         }
+                //     )
+                // }
+                // console.log(players);
+                
+                // resolve(players);
+            // })
+            // promise.then((players)=>{
+
+            //     console.log(player  s);
+                
+            // })
+            // io.to(user.roomId).emit('generateTicket',)
+            // io.to(user.roomId).emit('gameStarted',generateTicket(100,15));
             
         }
         else{
-            return callback('Admin Will start game!')
+            if(user){
+                return callback('Admin Will start game!')
+            }
+            else{
+                return callback('Join lobby first!')
+            }
         }
+    })
+
+    socket.on('generatedTicket',(ticket)=>{
+        // console.log(ticket, socket.id);
+        var user = users.getUser(socket.id);
+        // console.log(user);
+        if(user){
+            var gameRoom = games.getGame(user.roomId);
+            if(gameRoom){
+                games.addPlayer(user.roomId,socket.id,ticket)
+            }
+
+        }
+        // game.addPlayer()
+        console.log(games.games);
+        ;
+        
     })
 
 })
