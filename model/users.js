@@ -5,7 +5,12 @@ class Users{
     }
 
     addUser(id,username,roomId,admin){
-        var user = {id,username,roomId,admin};
+        var user = {
+            id:id,
+            username:username,
+            roomId:roomId,
+            admin:admin
+        };
         this.users.push(user);
     }
     removeUser(id){

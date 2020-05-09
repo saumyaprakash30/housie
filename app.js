@@ -9,6 +9,7 @@ const {Users} = require('./model/users');
 const {Game} = require('./model/game');
 var generateTicket = require('./util/genrateTicket');
 var startTheGame = require('./util/startTheGame');
+var scoreCheck = require('./util/scoreCheck');
 
 var users = new Users();
 var games = new Game();
@@ -82,6 +83,7 @@ io.on('connection',(socket)=>{
             if(users.getUserCount(deletedUser.roomId)){
                 users.setAdmin(deletedUser.roomId);
 
+
             }else{
                 var game = games.getGame(deletedUser.roomId)[0];
                 if(game && game.gameOver){
@@ -120,40 +122,6 @@ io.on('connection',(socket)=>{
                 console.log(games.games);
             }
             
-            // var promise = new Promise((resolve,reject)=>{
-            //     var count =0;
-            //     var playerCount = users.getUserCount(user.roomId);
-            //     socket.io('generatedTicket',(params)=>{
-            //         console.log(params);
-            //         count++;
-            //     })
-            //     if(count){
-
-            //     }
-                // var roomUsers = users.getUserList(user.roomId);
-                // // console.log("roomUsers",roomUsers);
-                
-                // var players=[];
-                // for(let i=0;i<roomUsers.length;i++){
-                //     players.push(
-                //         {
-                //             id:roomUsers[i].id,
-                //             ticket:generateTicket(100,15),
-                //             score:0
-                //         }
-                //     )
-                // }
-                // console.log(players);
-                
-                // resolve(players);
-            // })
-            // promise.then((players)=>{
-
-            //     console.log(player  s);
-                
-            // })
-            // io.to(user.roomId).emit('generateTicket',)
-            // io.to(user.roomId).emit('gameStarted',generateTicket(100,15));
             
         }
         else{
@@ -196,26 +164,30 @@ io.on('connection',(socket)=>{
         number = parseInt(number);
         var user = users.getUser(socket.id);
         if(user){
-            var game = games.getGame(user.roomId)[0];
-            if(game){
-                var player = games.getPlayer(user.roomId,user.id);
-                if(player){
-                    var checkPicked = game.pickedNumbers.indexOf((number));
-                    var checkTicket = player.ticket.indexOf(number)
-                    if(checkPicked!=-1 && checkTicket!=-1){
-                        games.punchTicket(user.roomId,user.id,number)
-                        return callback(1);
-                    }
-                    else{
-                        console.log("not ok");
-                        return callback(0);
-                    }
-                }
-                else{
-                    console.log("game not found");
-                    return callback(0);
-                }
-                }
+            console.log(user);
+            
+            scoreCheck(user.roomId,user.id,io,games,users)
+            // var game = games.getGame(user.roomId)[0];
+            // if(game){
+            //     var player = games.getPlayer(user.roomId,user.id);
+            //     if(player){
+            //         var checkPicked = game.pickedNumbers.indexOf((number));
+            //         var checkTicket = player.ticket.indexOf(number)
+            //         if(checkPicked!=-1 && checkTicket!=-1){
+            //             games.punchTicket(user.roomId,user.id,number)
+            //             scoreCheck(user.roomId,user.id,io,games,users)
+            //             return callback(1);
+            //         }
+            //         else{
+            //             console.log("not ok");
+            //             return callback(0);
+            //         }
+            //     }
+            //     else{
+            //         console.log("game not found");
+            //         return callback(0);
+            //     }
+            // }
         }
         
         

@@ -87,6 +87,43 @@ class Game{
         // console.log(this.games);
         
     }
+    addWinner(row,roomId,id){
+        var game = this.games.getGame(roomId)[0];
+        // var player = this.getPlayer(roomId,id);
+        if(row==1){
+            if(!game.row1Winner){
+                this.games[this.games.indexOf(game)].row1Winner = id;
+                return 1;
+
+            }
+            return 0;
+        }
+        else if(row==2){
+            if(!game.row2Winner){
+                this.games[this.games.indexOf(game)].row2Winner = id;
+                return 1;
+
+            }
+            return 0;
+        }
+        else if(row==3){
+            if(!game.row3Winner){
+                this.games[this.games.indexOf(game)].row3Winner = id;
+                return 1;
+
+            }
+            return 0;
+        }
+        else if(row==4){
+            if(!game.fullHouseWinner){
+                this.games[this.games.indexOf(game)].fullHouseWinner = id;
+                return 1;
+
+            }
+            return 0;
+        }
+    }
+
     punchTicket(roomId,id,number){
         var game = this.getGame(roomId)[0];
         var index = this.games.indexOf(game);
