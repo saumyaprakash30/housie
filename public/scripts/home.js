@@ -65,7 +65,7 @@ socket.on('gameStarted',()=>{
 
 socket.on('generateTicket',(callback)=>{
     var ticket = generateTicket(100,15)
-    console.log(ticket);
+    console.log("ticket",ticket);
     // return ticket;
     socket.emit('generatedTicket',ticket);
     var post ='';
@@ -86,14 +86,32 @@ socket.on('generateTicket',(callback)=>{
 var generateTicket = (max,count)=>{
     //max : number between 0 to max
     //count : how many unique numbers
-    uniqueNubers = []
+    var uniqueNubers = []
     while(uniqueNubers.length<count){
         var randomNumber = Math.floor(Math.random()*max)+1;
         if(uniqueNubers.indexOf(randomNumber)==-1){
             uniqueNubers.push(randomNumber);
         }
     }
-    return uniqueNubers;
+    
+    let temp = uniqueNubers;
+    var res =[];
+    console.log("temp",temp);
+    
+    for(let i =0;i<3;i++){
+        var part = temp.splice(0,5);
+        console.log(part);
+        
+        part.sort((a,b)=> a-b);
+        console.log('part',i,part);
+        
+        res = res.concat(part);
+
+        console.log("res",res);
+        
+        
+    }
+    return res;
 
 }
 function numberCheck(that){
