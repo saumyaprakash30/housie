@@ -35,7 +35,7 @@ function joinRoom(){
             console.log("joined sucessful");
             document.getElementById('joining').style.display = 'none';
             document.getElementById('waiting').style.display = 'block';
-            
+            document.getElementById('userList').style.display = 'block';
         }
     });
 }
@@ -76,7 +76,7 @@ socket.on('generateTicket',(callback)=>{
         if(rowEleCount<5 && ticket[index]<(i%10+1)*10 ){
             console.log("ticketval",ticket[index]);
             
-            post+='<button onclick="numberCheck(this)" value="'+ticket[index]+'">'+ticket[index]+'</button>'
+            post+='<button class="btnTicket" onclick="numberCheck(this)" value="'+ticket[index]+'">'+ticket[index]+'</button>'
             index++;
             rowEleCount++;
             console.log(rowEleCount,(i+1)%10);
@@ -84,7 +84,7 @@ socket.on('generateTicket',(callback)=>{
             
         }
         else{
-            post+='<button disabled="true">X</Button>'
+            post+='<button class="btnTicket" disabled="true">X</Button>'
         }
         if(rowEleCount==5 && (i+1)%10==0){
             rowEleCount=0;
@@ -97,6 +97,7 @@ socket.on('generateTicket',(callback)=>{
     
     document.getElementById('ticket').innerHTML = post;
     document.getElementById('waiting').style.display = 'none';
+    document.getElementById('userList').style.display = 'none';
     document.getElementById('gaming').style.display = 'block';
         
 })
