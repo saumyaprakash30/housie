@@ -43,7 +43,7 @@ socket.on('updateList',(users)=>{
     console.log("users in this room ",users);
 
     var list = document.getElementById('userList');
-    var post = '';
+    var post = 'Lobby Players<br>';
     for(let i=0;i<users.length;i++){
         post+='<li>'+users[i]+'</li>';
     }
@@ -69,9 +69,27 @@ socket.on('generateTicket',(callback)=>{
     // return ticket;
     socket.emit('generatedTicket',ticket);
     var post ='';
-    for(let i=0;i<ticket.length;i++){
-        post+='<button onclick="numberCheck(this)" value="'+ticket[i]+'">'+ticket[i]+'</button>'
-        if((i+1)%5==0){
+    var index =0;
+    var rowEleCount=0;
+    for(let i=0;i<30;i++){
+        
+        if(rowEleCount<5 && ticket[index]<(i%10+1)*10 ){
+            console.log("ticketval",ticket[index]);
+            
+            post+='<button onclick="numberCheck(this)" value="'+ticket[index]+'">'+ticket[index]+'</button>'
+            index++;
+            rowEleCount++;
+            console.log(rowEleCount,(i+1)%10);
+            
+            
+        }
+        else{
+            post+='<button disabled="true">X</Button>'
+        }
+        if(rowEleCount==5 && (i+1)%10==0){
+            rowEleCount=0;
+        }
+        if((i+1)%10==0){
             post+='<br>'
         }
     }
@@ -87,10 +105,18 @@ var generateTicket = (max,count)=>{
     //max : number between 0 to max
     //count : how many unique numbers
     var uniqueNubers = []
+    var prev = -1;
+    var rowEleCount =0;
     while(uniqueNubers.length<count){
-        var randomNumber = Math.floor(Math.random()*max)+1;
-        if(uniqueNubers.indexOf(randomNumber)==-1){
+        var randomNumber = Math.floor(Math.random()*(20))+rowEleCount*10*2;
+        if(uniqueNubers.indexOf(randomNumber)==-1 && randomNumber>prev){
+            rowEleCount++;
+            prev=randomNumber;
             uniqueNubers.push(randomNumber);
+            if(rowEleCount==5){
+                rowEleCount = 0;
+                prev =-1;
+            }
         }
     }
     
