@@ -1,5 +1,5 @@
 module.exports = async (roomId,io,games)=>{
-    var count =0;
+    var count =1;
     var allNumbers = []
     
     while(allNumbers.length<100 ){

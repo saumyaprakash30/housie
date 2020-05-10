@@ -9,6 +9,7 @@ function startGame(){
     +'<p>Row3 winner: </p>'
     document.getElementById('scoreBoard').innerHTML = post;
     document.getElementById('balls').innerHTML = '';
+    document.getElementById('picked').innerHTML = 'Picking up number!!';
     socket.emit('startGame',(err)=>{
         if(err){
             alert(err);
@@ -126,7 +127,15 @@ var generateTicket = (max,count)=>{
     var prev = -1;
     var rowEleCount =0;
     while(uniqueNubers.length<count){
-        var randomNumber = Math.floor(Math.random()*(20))+rowEleCount*10*2;
+        if(rowEleCount==0){
+            var randomNumber = Math.floor(Math.random()*(20))+rowEleCount*10*2+1;    
+        }
+        else if(rowEleCount==4){
+            var randomNumber = Math.floor(Math.random()*(19))+rowEleCount*10*2;    
+        }
+        else{
+            var randomNumber = Math.floor(Math.random()*(20))+rowEleCount*10*2;
+        }
         if(uniqueNubers.indexOf(randomNumber)==-1 && randomNumber>prev){
             rowEleCount++;
             prev=randomNumber;
@@ -181,7 +190,7 @@ socket.on('pickedNumber',(pnumber)=>{
     post.classList.add('ball');
     post.innerHTML = ` ${pnumber} `;
     document.getElementById('balls').appendChild(post)
-    
+    document.getElementById('gamescroll').scrollTop = document.getElementById('gamescroll').scrollHeight;    
 })
 socket.on('scoreChange',(winner)=>{
     console.log(winner);
@@ -202,7 +211,7 @@ socket.on('scoreChange',(winner)=>{
 socket.on('gameOver',(winner)=>{
     console.log("winner",winner);
     console.log(saveUsername,saveUsers[0]);
-    
+    document.getElementById('picked').innerHTML = "Game Over!"
     if(saveUsers[0]==saveUsername){
         document.getElementById('btnRestart').style.display = 'block';
     }

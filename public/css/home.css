@@ -90,9 +90,13 @@
     margin-right: 5px; 
     top: 5px;     
 }
+.topContainer{
+    margin-bottom: 5px;
+}
 #userListGaming{
     font-size: 25px;
     font-weight: 300;
+    color: white;
     background: rgb(69, 135, 165);
     /* padding: 2%; */
     width: 40%;
@@ -254,6 +258,8 @@ body{
     border-bottom: 6%;
     position: fixed;
     bottom: 170px ;
+    right: 0;
+    left: 0 ;
 }
 #newNumber{
     background-color: honeydew;
