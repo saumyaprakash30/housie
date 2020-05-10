@@ -3,50 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <link rel="stylesheet" href="/css/home.css">
+
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home | Housie</title>
 </head>
 <body>
-    <div id="joining" style="text-align: center;">
-        <h1>Welcome to Housie</h1>
-        
-            username: <input id="username" type="text" name="username" >
-            <br>
-            roomId : <input id="roomId" type="text" name="roomId">
-            <br>
-
-            <button id="btnJoin" onclick="joinRoom()">Join</button>
-            <br>
-            <!-- <button id="getlist" onclick="getList()">Get list</button> -->
+    <div class="container   ">
+        <div id="joining" style="text-align: center;">
+            <h1 class="title">Housie- Fun ways for number calling!</h1>
             
-    </div>
-    <div id="waiting" style="display: none;">
-        <button id="startGame"  onclick="startGame()" >Start Game</button>
-        
-        
-
-    </div>
-    
-    <div id="gaming" style="display: none;">
-        <h1>Game Started!</h1>
-        <div id="picked"></div>
-        <div id="board">
-            <span>Board</span><br>
+                <span class="inpspan">username: </span>  <input id="username" type="text" name="username" >
+                <br>
+                <br>
+                <span class="inpspan">roomId:   </span>   <input id="roomId" type="text" name="roomId">
+                <br>
+                <br>
+                <button id="btnJoin" onclick="joinRoom()">Join</button>
+                <br>
+                <!-- <button id="getlist" onclick="getList()">Get list</button> -->
+                
         </div>
-        <div id="scoreBoard" >
-            <p>Row1 winner: </p>
-            <p>Row2 winner: </p>
-            <p>Row3 winner: </p>
-            <p>fullHouse winner: </p>
+        <div id="waiting" style="display: none;">
+            <h1 >Wait for others to join the room!</h1>
+            <button id="startGame" class="decor" onclick="startGame()" >Start Game</button>
+            
+            <!-- <button value="2" onclick="numberCheck(this)">check</button> -->
+
+        </div>
+        
+        <div id="gaming" style="display: none;">
+            <h1>Game Started!</h1>
+            <div id="newNumber">New Number</div>
+            <div id="picked"></div>
+            <br>
+            <div id="board">
+                <h1><span>Board</span></h1><br>
+            </div>
+            <br>
+            <div id="scoreBoard" >
+                <p>Row1 winner: </p>
+                <p>Row2 winner: </p>
+                <p>Row3 winner: </p>
+                <p>fullHouse winner: </p>
+            </div>
+            <div id="ticket"></div>
+
         </div>
         <button id="btnRestart" style="display: none;" onclick="restart()">Restart Game</button>
         <div id="ticket"></div>
 
+        <div id="userList" style="display: none;"></div>
     </div>
-
-    <div id="userList"></div>
-    
     <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts/home.js"></script>
 </body>
