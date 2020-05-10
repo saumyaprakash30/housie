@@ -11,6 +11,10 @@ module.exports = async(roomId,id,io,games,users)=>{
         
         var winner = getWinnerDetail(roomId)
         io.to(roomId).emit('scoreChange',winner);
+        if(r4){
+            games.setGameOver(roomId);
+            io.to(roomId).emit('gameOver',winner);
+        }
     }
     
 

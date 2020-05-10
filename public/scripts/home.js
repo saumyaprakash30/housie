@@ -1,8 +1,13 @@
 var socket = io()
-
-
+var saveUsername,saveRoomId;
+var saveUsers =[]
 
 function startGame(){
+    var post = '<p>Row1 winner: </p>'
+               +'<p>Row2 winner: </p>'
+                +'<p>Row3 winner: </p>'
+                +'<p>fullHouse winner: </p>';
+    document.getElementById('scoreBoard').innerHTML = post;
     socket.emit('startGame',(err)=>{
         if(err){
             alert(err);
@@ -32,6 +37,8 @@ function joinRoom(){
             alert(err);
         }
         else{
+            saveUsername= username;
+            saveRoomId= roomId;
             console.log("joined sucessful");
             document.getElementById('joining').style.display = 'none';
             document.getElementById('waiting').style.display = 'block';
@@ -41,7 +48,7 @@ function joinRoom(){
 }
 socket.on('updateList',(users)=>{
     console.log("users in this room ",users);
-
+    saveUsers = users;
     var list = document.getElementById('userList');
     var post = 'Lobby Players<br>';
     for(let i=0;i<users.length;i++){
@@ -56,30 +63,30 @@ socket.on('updateList',(users)=>{
     
 })
 
-socket.on('gameStarted',()=>{
-    console.log("started");
-    document.getElementById('waiting').style.display = 'none';
-    document.getElementById('gaming').style.display = 'block';
 
-})
 
 socket.on('generateTicket',(callback)=>{
+    var post = '<p>Row1 winner: </p>'
+               +'<p>Row2 winner: </p>'
+                +'<p>Row3 winner: </p>'
+                +'<p>fullHouse winner: </p>';
+    document.getElementById('scoreBoard').innerHTML = post;
     var ticket = generateTicket(100,15)
     console.log("ticket",ticket);
     // return ticket;
-    socket.emit('generatedTicket',ticket);
+    socket.emit('generatedTicket',ticket,callback);
     var post ='';
-    var index =0;
+    var index =0;   
     var rowEleCount=0;
     for(let i=0;i<30;i++){
         
         if(rowEleCount<5 && ticket[index]<(i%10+1)*10 ){
-            console.log("ticketval",ticket[index]);
+            // console.log("ticketval",ticket[index]);
             
             post+='<button onclick="numberCheck(this)" value="'+ticket[index]+'">'+ticket[index]+'</button>'
             index++;
             rowEleCount++;
-            console.log(rowEleCount,(i+1)%10);
+            // console.log(rowEleCount,(i+1)%10);
             
             
         }
@@ -93,7 +100,7 @@ socket.on('generateTicket',(callback)=>{
             post+='<br>'
         }
     }
-    console.log(post);
+    // console.log(post);
     
     document.getElementById('ticket').innerHTML = post;
     document.getElementById('waiting').style.display = 'none';
@@ -145,8 +152,12 @@ function numberCheck(that){
     
     socket.emit('checkNumber',that.value,(val)=>{
         console.log("msg",val);
-        if(val){
+        if(val==1){
             that.disabled = true;
+        }
+        if(val==-1){
+            alert("Game lobby does not exist!");
+            window.location = '/'
         }
     });
 }
@@ -174,3 +185,21 @@ socket.on('scoreChange',(winner)=>{
     document.getElementById('scoreBoard').innerHTML = post;
     
 })
+
+socket.on('gameOver',(winner)=>{
+    console.log("winner",winner);
+    console.log(saveUsername,saveUsers[0]);
+    
+    if(saveUsers[0]==saveUsername){
+        document.getElementById('btnRestart').style.display = 'block';
+    }
+})
+
+function restart(){
+    console.log("restart");
+    
+    if(saveUsers[0]==saveUsername){
+        // document.getElementById('btnRestart').style.display = 'block';
+        startGame()
+    }
+}

@@ -10,6 +10,7 @@ class Game{
             roomId:roomId,
             pickedNumbers:[],
             players:[],
+            isStarted : true,
             gameOver:false,
             row1Winner:null,
             row2Winner:null,
