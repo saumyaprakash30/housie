@@ -13,10 +13,14 @@
         <div id="joining" style="text-align: center;">
             <h1 class="title">Housie- Fun ways for number calling!</h1>
             
-                <span class="inpspan">username: </span>  <input id="username" type="text" name="username" >
+                <div>
+                    <span class="inpspan">username: </span>  <input id="username" placeholder="Username" type="text" name="username" >
+                </div>
                 <br>
                 <br>
-                <span class="inpspan">roomId:   </span>   <input id="roomId" type="text" name="roomId">
+                <div>
+                    <span class="inpspan">roomId:   </span>   <input id="roomId" placeholder="Room Id" type="text" name="roomId">
+                </div>
                 <br>
                 <br>
                 <button id="btnJoin" onclick="joinRoom()">Join</button>
@@ -33,24 +37,30 @@
         </div>
         
         <div id="gaming" style="display: none;">
-            <h1>Game Started!</h1>
-            <div id="newNumber">New Number</div>
+            
+            <div id="newNumber">
+                <div >New Number</div>
             <div id="picked"></div>
-            <br>
-            <div id="board">
-                <h1><span>Board</span></h1><br>
             </div>
+            <button id="btnRestart" style="display: none;" onclick="restart()">Restart Game</button>
             <br>
-            <div id="scoreBoard" >
-                <p>Row1 winner: </p>
-                <p>Row2 winner: </p>
-                <p>Row3 winner: </p>
-                <p>fullHouse winner: </p>
+            <div id="gamescroll">
+                <div id="board">
+                    <div class="title"><span>Board</span></div><br>
+                    <div id="balls"></div>
+                </div>
+                <br>
+                <div id="scoreBoard" >
+                    <p>Row1 winner: </p>
+                    <p>Row2 winner: </p>
+                    <p>Row3 winner: </p>
+                    <p>fullHouse winner: </p>
+                </div>
             </div>
-            <div id="ticket"></div>
+            
 
         </div>
-        <button id="btnRestart" style="display: none;" onclick="restart()">Restart Game</button>
+        
         <div id="ticket"></div>
 
         <div id="userList" style="display: none;"></div>

@@ -42,6 +42,7 @@
 
 
 #waiting{
+    /* position: fixed; */
     width: 80%;
     display: none;
     text-align: center;
@@ -84,7 +85,14 @@
 #ticket{
     
     text-align: center;
-    margin-top: 45px;
+    /* margin-top: 45px; */
+    position: fixed;
+    bottom: 10px;
+    left: 20%;
+    right: 20%;
+
+    width: auto;
+    margin: 0 auto;
     
    /* margin-top: 50%;*/
 } 
@@ -123,6 +131,21 @@ body{
     /* width: 80px; */
     
 }
+.btnTicket{
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    
+}
+.btnTicketD{
+    background-color: gray;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+}
+.btndis{
+    background-color: gray;
+}
 
 #username{
     background-color: white;
@@ -150,10 +173,39 @@ body{
     /* width: 120px; */
 }
 #gaming{
-    text-align: center;
+    /* background-color: #37c8c8; */
+    
+    padding: 2%;
+    /* height: 400px; */
+    /* overflow: scroll; */
+}
+#gamescroll{
+    padding: 1%;
+    height: 300px;
+    /* overflow: scroll; */
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.ballPicked{
+    /* width: max-content; */
+    /* text-align: center; */
+    /* width: 70;
+    height: 70%; */
+    font-size: 50px;
+    /* font-size: 30px; */
+    /* border-radius: 50%; */
+    /* background-color: rgb(250, 84, 84); */
+    color:rgb(250, 84, 84);
+
+}
+.btnTicket:disabled{
+    background-color: black;
+    color: white;
 }
 #picked{
     background-color: honeydew;
+    
+    text-align: center;
     padding: 1%;
     width: 35%;
     margin: 0 auto;
@@ -161,10 +213,12 @@ body{
 }
 #newNumber{
     background-color: honeydew;
+    text-align: center;
     padding: 1%;
     width: 35%;
     margin: 0 auto;
     border-top: 6%;
+    border-radius: 5px;
 }
 #board{
     background-color: honeydew;
@@ -178,19 +232,61 @@ body{
     background-color: honeydew;
     padding: 2%;
     left: 0;
-    width: 40%;
+    width: 50%;
     border-radius: 10px;
     margin: 0 auto;
 }
+#balls{
+    display: inline;
+    text-align: left;
+}
+.ball{
+    background-color: aquamarine;
+    width: fit-content;
+    border-radius: 50%;
+    /* size: 20%; */
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    margin-left: 2%;
 
-@media screen and (min-width:800){
+    
+}
+
+@media screen and (max-width:800px){
     #userList{
         /* position: relative; */
         right: auto;
     }
     .title{
-        background-color: green;
+        /* background-color: green; */
+        font-size: 20px;
+
+    }
+    #waiting{
+        width: 95%;
+    }
+    #joining{
+        width: 95%;
+    }
+    .ball{
+        width: 25px;
+        height: 25px;
         font-size: 20px;
     }
-    
+    #ticket{
+        left: auto  ;
+    right: auto;
+    }
+    .btnTicket{
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+    .btnTicketD{
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+
 }

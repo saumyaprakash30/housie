@@ -105,7 +105,6 @@ io.on('connection',(socket)=>{
                 else if(game && !game.gameOver){
                     console.log("last player leave - not over");
                     games.setGameOver(game.roomId);
-                    games.setGameOver(game.roomId);
                     setTimeout(()=>{
                         console.log("game removed",game.id);
                         

@@ -8,9 +8,13 @@ function startGame(){
                 +'<p>Row3 winner: </p>'
                 +'<p>fullHouse winner: </p>';
     document.getElementById('scoreBoard').innerHTML = post;
+    document.getElementById('balls').innerHTML = '';
     socket.emit('startGame',(err)=>{
         if(err){
             alert(err);
+        }
+        else{
+            document.getElementById('btnRestart').style.display = 'none';
         }
     })
 }
@@ -91,7 +95,7 @@ socket.on('generateTicket',(callback)=>{
             
         }
         else{
-            post+='<button class="btnTicket" disabled="true">X</Button>'
+            post+='<button class="btnTicketD" disabled="true">X</Button>'
         }
         if(rowEleCount==5 && (i+1)%10==0){
             rowEleCount=0;
@@ -165,11 +169,12 @@ function numberCheck(that){
 
 socket.on('pickedNumber',(pnumber)=>{
     console.log(pnumber);
-    document.getElementById('picked').innerHTML = pnumber;
+    document.getElementById('picked').innerHTML = '<span class = "ballPicked">'+pnumber+'</span>';
     // var post = `<span> ${pnumber} </span>`;
     var post = document.createElement('span');
+    post.classList.add('ball');
     post.innerHTML = ` ${pnumber} `;
-    document.getElementById('board').appendChild(post)
+    document.getElementById('balls').appendChild(post)
     
 })
 socket.on('scoreChange',(winner)=>{
@@ -184,6 +189,7 @@ socket.on('scoreChange',(winner)=>{
         }
     }
     document.getElementById('scoreBoard').innerHTML = post;
+    document.getElementById('scoreBoard').scrollIntoView();
     
 })
 

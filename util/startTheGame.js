@@ -9,6 +9,11 @@ module.exports = async (roomId,io,games)=>{
     
     console.log("game is startded in ", roomId);
     function fun1(){
+        var game = games.getGame(roomId)[0];
+        if(!game){
+            clearInterval(interval);
+            return 0;
+        }
         console.log(games.getGame(roomId)[0].gameOver);
         if(allNumbers.length==0 || games.getGame(roomId)[0].gameOver){
             
