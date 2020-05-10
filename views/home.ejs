@@ -30,6 +30,7 @@
         </div>
         <div id="waiting" style="display: none;">
             <h1 >Wait for others to join the room!</h1>
+            <div id="roomDetail"></div>
             <button id="startGame" class="decor" onclick="startGame()" >Start Game</button>
             
             <!-- <button value="2" onclick="numberCheck(this)">check</button> -->
@@ -37,27 +38,33 @@
         </div>
         
         <div id="gaming" style="display: none;">
-            
-            <div id="newNumber">
-                <div >New Number</div>
-            <div id="picked"></div>
-            </div>
+            <div style="color: aliceblue;text-align: center;">Housie</div>
+            <input id="info" onclick="showInfo()" type="button" value="i" >
+            <input id="closeInfo" onclick="hideInfo()" type="button" value="x" >
             <button id="btnRestart" style="display: none;" onclick="restart()">Restart Game</button>
             <br>
+            <div>
+                <div id="scoreBoard" >
+                    <p>FullHouse winner: </p>
+                    <p>Row1 winner: </p>
+                    <p>Row2 winner: </p>
+                    <p>Row3 winner: </p>
+                </div>
+                <div id="userListGaming"></div> 
+            </div> 
             <div id="gamescroll">
+                
                 <div id="board">
                     <div class="title"><span>Board</span></div><br>
                     <div id="balls"></div>
                 </div>
                 <br>
-                <div id="scoreBoard" >
-                    <p>Row1 winner: </p>
-                    <p>Row2 winner: </p>
-                    <p>Row3 winner: </p>
-                    <p>fullHouse winner: </p>
-                </div>
+                
             </div>
-            
+            <div id="newNumber">
+                
+                <div id="picked">Picking up number!!</div>
+            </div>
 
         </div>
         

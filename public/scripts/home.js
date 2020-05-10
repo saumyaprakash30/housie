@@ -3,10 +3,10 @@ var saveUsername,saveRoomId;
 var saveUsers =[]
 
 function startGame(){
-    var post = '<p>Row1 winner: </p>'
-               +'<p>Row2 winner: </p>'
-                +'<p>Row3 winner: </p>'
-                +'<p>fullHouse winner: </p>';
+    var post = '<p>fullHouse winner: </p>'
+    +'<p>Row1 winner: </p>';
+    +'<p>Row2 winner: </p>'
+    +'<p>Row3 winner: </p>'
     document.getElementById('scoreBoard').innerHTML = post;
     document.getElementById('balls').innerHTML = '';
     socket.emit('startGame',(err)=>{
@@ -15,6 +15,9 @@ function startGame(){
         }
         else{
             document.getElementById('btnRestart').style.display = 'none';
+        }
+        if(err == 'Join lobby first!'){
+            window.location = '/';  
         }
     })
 }
@@ -47,6 +50,7 @@ function joinRoom(){
             document.getElementById('joining').style.display = 'none';
             document.getElementById('waiting').style.display = 'block';
             document.getElementById('userList').style.display = 'block';
+            document.getElementById('roomDetail').innerHTML= '<h3>Room Id - '+saveRoomId+'</h3>'
         }
     });
 }
@@ -54,12 +58,14 @@ socket.on('updateList',(users)=>{
     console.log("users in this room ",users);
     saveUsers = users;
     var list = document.getElementById('userList');
+    var list1 = document.getElementById('userListGaming');
     var post = 'Lobby Players<br>';
     for(let i=0;i<users.length;i++){
         post+='<li>'+users[i]+'</li>';
     }
     post = '<ol>'+post+'</ol>'
     list.innerHTML = post;
+    list1.innerHTML = post
     // list
     // list.appendChild(post)
     console.log(post);
@@ -169,7 +175,7 @@ function numberCheck(that){
 
 socket.on('pickedNumber',(pnumber)=>{
     console.log(pnumber);
-    document.getElementById('picked').innerHTML = '<span class = "ballPicked">'+pnumber+'</span>';
+    document.getElementById('picked').innerHTML = '<div >New Number</div>'+'<span class = "ballPicked">'+pnumber+'</span>';
     // var post = `<span> ${pnumber} </span>`;
     var post = document.createElement('span');
     post.classList.add('ball');
@@ -209,4 +215,16 @@ function restart(){
         // document.getElementById('btnRestart').style.display = 'block';
         startGame()
     }
+}
+
+function showInfo(){
+    display = document.getElementById('info').style.display = 'none';
+    display = document.getElementById('closeInfo').style.display = 'block';
+    display = document.getElementById('userListGaming').style.display = 'block';;
+    
+}
+function hideInfo(){
+    display = document.getElementById('info').style.display = 'block';
+    display = document.getElementById('closeInfo').style.display = 'none';
+    display = document.getElementById('userListGaming').style.display = 'none';;
 }

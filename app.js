@@ -140,7 +140,7 @@ io.on('connection',(socket)=>{
                     io.to(user.roomId).emit('generateTicket',1);
                 
                     games.addGame(user.roomId);
-                    console.log(games.games);
+                    // console.log(games.games);
                 }
                 else{
                     callback('Game already started!')
@@ -149,7 +149,7 @@ io.on('connection',(socket)=>{
                 io.to(user.roomId).emit('generateTicket',1);
                 
                 games.addGame(user.roomId);
-                console.log(games.games);
+                // console.log(games.games);
             }
             
             
@@ -157,7 +157,7 @@ io.on('connection',(socket)=>{
         else{
             if(user){
                 var game = games.getGame(user.roomId)[0];
-                console.log("gaameee",game);
+                // console.log("gaameee",game);
                 
                 // if(game && games.getGame(user.roomId)[0].isStarted){
                 //     return callback("Game in progress!")
