@@ -2,7 +2,7 @@ module.exports = async (roomId,io,games)=>{
     var count =1;
     var allNumbers = []
     
-    while(allNumbers.length<100 ){
+    while(allNumbers.length<99 ){
         allNumbers.push(count++)
     }
     console.log(allNumbers);

@@ -1,5 +1,5 @@
 var socket = io()
-var saveUsername,saveRoomId;
+var saveUsername='',saveRoomId='';
 var saveUsers =[]
 
 function startGame(){
@@ -34,6 +34,8 @@ function joinRoom(){
     var username = document.getElementById('username').value.trim();
     var roomId = document.getElementById('roomId').value.trim();
     var param = {username:username,roomId:roomId};
+    saveUsername= username;
+    saveRoomId= roomId;
     // if(username && room){
     //     console.log(username,room);
     //     
@@ -45,8 +47,7 @@ function joinRoom(){
             alert(err);
         }
         else{
-            saveUsername= username;
-            saveRoomId= roomId;
+            
             console.log("joined sucessful");
             document.getElementById('joining').style.display = 'none';
             document.getElementById('waiting').style.display = 'block';
@@ -56,16 +57,22 @@ function joinRoom(){
     });
 }
 socket.on('updateList',(users)=>{
-    console.log("users in this room ",users);
+    console.log("users in this room ",users,socket.id);
     saveUsers = users;
     var list = document.getElementById('userList');
     var list1 = document.getElementById('userListGaming');
     var post = 'Lobby Players<br>';
     for(let i=0;i<users.length;i++){
-        post+='<li>'+users[i]+'</li>';
+        if(i==0){
+            post+='<li>'+users[i]+' (Admin)</li>';
+        }else{
+            post+='<li>'+users[i]+'</li>';
+        }
+        
     }
     post = '<ol>'+post+'</ol>'
     list.innerHTML = post;
+    post = '<button id = "btnLULG" onclick="leave()">Exit lobby</button><br>'+'<span>Room Id :'+saveRoomId+'</span><br>'+post;
     list1.innerHTML = post
     // list
     // list.appendChild(post)
@@ -112,11 +119,14 @@ socket.on('generateTicket',(callback)=>{
         }
     }
     // console.log(post);
-    
+    document.getElementById('balls').innerHTML = '';
     document.getElementById('ticket').innerHTML = post;
     document.getElementById('waiting').style.display = 'none';
     document.getElementById('userList').style.display = 'none';
     document.getElementById('gaming').style.display = 'block';
+    document.getElementById('btnRestart').style.display = 'none';
+    // document.getElementById('btnRestart').style.display = 'none';
+    // document.getElementById('btnLeave').style.display = 'block';
         
 })
 
@@ -212,18 +222,28 @@ socket.on('gameOver',(winner)=>{
     console.log("winner",winner);
     console.log(saveUsername,saveUsers[0]);
     document.getElementById('picked').innerHTML = "Game Over!"
-    if(saveUsers[0]==saveUsername){
-        document.getElementById('btnRestart').style.display = 'block';
-    }
+    document.getElementById('btnRestart').style.display = 'block';
+    // document.getElementById('btnLeave').style.display = 'block';
+    
 })
+function leave(){
+    window.location = '/';
+}
 
 function restart(){
     console.log("restart");
+    document.getElementById('btnRestart').style.display = 'none';
+    // document.getElementById('btnLeave').style.display = 'none';
+    document.getElementById('gaming').style.display = 'none';
+    document.getElementById('waiting').style.display = 'block';
+    document.getElementById('userList').style.display = 'block';
     
-    if(saveUsers[0]==saveUsername){
-        // document.getElementById('btnRestart').style.display = 'block';
-        startGame()
-    }
+    // if(saveUsers[0]==saveUsername){
+    //     document.getElementById('gaming')
+    //     // startGame()
+    // }else{
+
+    // }
 }
 
 function showInfo(){

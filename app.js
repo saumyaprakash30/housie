@@ -45,7 +45,7 @@ io.on('connection',(socket)=>{
             if(game && game.isStarted ){
                 // socket.emit('generateTicket',2)
                 // console.log("game stat",game.gameOver);
-                // if(!game.gameOver)
+                if(!game.gameOver)
                 return calback('Game in progress!')
             }
             users.addUser(socket.id,param.username,param.roomId,admin);
