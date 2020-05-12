@@ -2,6 +2,13 @@ var socket = io()
 var saveUsername='',saveRoomId='';
 var saveUsers =[]
 
+const urlParams = new URLSearchParams(window.location.search);
+const paramRoomId = urlParams.get('roomid');
+if(paramRoomId){
+    document.getElementById('roomId').value = paramRoomId;
+    document.getElementById('roomId').disabled = 'disabled';
+}
+
 function startGame(){
     var post = '<p>fullHouse winner: </p>'
     +'<p>Row1 winner: </p>';
@@ -47,14 +54,27 @@ function joinRoom(){
             alert(err);
         }
         else{
-            
+            let url = window.location.href  ;
+            console.log(url.split("?"))
+            let urlToShare = url.split('?')[0]+'?roomid='+saveRoomId;
             console.log("joined sucessful");
             document.getElementById('joining').style.display = 'none';
             document.getElementById('waiting').style.display = 'block';
             document.getElementById('userList').style.display = 'block';
-            document.getElementById('roomDetail').innerHTML= '<h3>Room Id - '+saveRoomId+'</h3>'
+            document.getElementById('roomDetail').innerHTML= '<h3>Room Id - '+saveRoomId+'</h3>'+'<span >Invite link : </span><br><span  id="urlToShare" style="background-color: #1db0ff;margin: 0 auto" >'+urlToShare+'</span><br><button onclick="copyLink()">copyLink</button>';
         }
     });
+}
+function copyLink(){
+    let urlToShare = window.location.href.split('?')[0]+'?roomid='+saveRoomId;
+    const el = document.createElement('textarea');
+    el.value = urlToShare;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+
 }
 socket.on('updateList',(users)=>{
     console.log("users in this room ",users,socket.id);
@@ -78,7 +98,10 @@ socket.on('updateList',(users)=>{
     }
     post = '<ol>'+post+'</ol>'
     list.innerHTML = post;
-    post = '<button id = "btnLULG" onclick="leave()">Exit lobby</button><br>'+'<span style="color: black;text-align: center" >Room Id :'+saveRoomId+'</span><br>'+post;
+
+    post = '<button id = "btnLULG" onclick="leave()">Exit lobby</button><br>'+
+        '<span style="color: black;text-align: center" >Room Id :'+saveRoomId+'</span><br>'
+        +post;
     list1.innerHTML = post
     // list
     // list.appendChild(post)
