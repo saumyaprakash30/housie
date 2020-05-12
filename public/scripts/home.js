@@ -63,20 +63,26 @@ socket.on('updateList',(users)=>{
     var list1 = document.getElementById('userListGaming');
     var post = 'Lobby Players<br>';
     for(let i=0;i<users.length;i++){
-        if(i==0){
-            post+='<li>'+users[i]+' (Admin)</li>';
-        }else{
-            post+='<li>'+users[i]+'</li>';
+        let admin = ''
+        if(i==0)
+            admin='(admin)'
+        else    admin=''
+        if(socket.id==users[i].id) {
+            post += '<li>' + users[i].username + ' (You) '+admin+'</li>';
         }
+        else{
+            post+='<li>'+users[i].username+' '+admin+'</li>';
+        }
+
         
     }
     post = '<ol>'+post+'</ol>'
     list.innerHTML = post;
-    post = '<button id = "btnLULG" onclick="leave()">Exit lobby</button><br>'+'<span>Room Id :'+saveRoomId+'</span><br>'+post;
+    post = '<button id = "btnLULG" onclick="leave()">Exit lobby</button><br>'+'<span style="color: black;text-align: center" >Room Id :'+saveRoomId+'</span><br>'+post;
     list1.innerHTML = post
     // list
     // list.appendChild(post)
-    console.log(post);
+    // console.log(post);
     
     
 })
@@ -90,7 +96,7 @@ socket.on('generateTicket',(callback)=>{
                 +'<p>fullHouse winner: </p>';
     // document.getElementById('scoreBoard').innerHTML = post;
     var ticket = generateTicket(100,15)
-    console.log("ticket",ticket);
+    // console.log("ticket",ticket);
     // return ticket;
     socket.emit('generatedTicket',ticket,callback);
     var post ='';
@@ -160,18 +166,18 @@ var generateTicket = (max,count)=>{
     
     let temp = uniqueNubers;
     var res =[];
-    console.log("temp",temp);
+    // console.log("temp",temp);
     
     for(let i =0;i<3;i++){
         var part = temp.splice(0,5);
-        console.log(part);
+        // console.log(part);
         
         part.sort((a,b)=> a-b);
-        console.log('part',i,part);
+        // console.log('part',i,part);
         
         res = res.concat(part);
 
-        console.log("res",res);
+        // console.log("res",res);
         
         
     }
@@ -179,10 +185,10 @@ var generateTicket = (max,count)=>{
 
 }
 function numberCheck(that){
-    console.log("value",that.value);
+    // console.log("value",that.value);
     
     socket.emit('checkNumber',that.value,(val)=>{
-        console.log("msg",val);
+        // console.log("msg",val);
         if(val==1){
             that.disabled = true;
         }
@@ -194,7 +200,7 @@ function numberCheck(that){
 }
 
 socket.on('pickedNumber',(pnumber)=>{
-    console.log(pnumber);
+    // console.log(pnumber);
     document.getElementById('picked').innerHTML = '<div >New Number</div>'+'<span class = "ballPicked">'+pnumber+'</span>';
     // var post = `<span> ${pnumber} </span>`;
     var post = document.createElement('span');
@@ -204,7 +210,7 @@ socket.on('pickedNumber',(pnumber)=>{
     document.getElementById('gamescroll').scrollTop = document.getElementById('gamescroll').scrollHeight;    
 })
 socket.on('scoreChange',(winner)=>{
-    console.log(winner);
+    // console.log(winner);
     var post = '';
     for(let i=0;i<winner.length;i++){
         if(i==3){
@@ -221,7 +227,7 @@ socket.on('scoreChange',(winner)=>{
 
 socket.on('gameOver',(winner)=>{
     console.log("winner",winner);
-    console.log(saveUsername,saveUsers[0]);
+    // console.log(saveUsername,saveUsers[0]);
     document.getElementById('picked').innerHTML = "Game Over!"
     document.getElementById('btnRestart').style.display = 'block';
     // document.getElementById('btnLeave').style.display = 'block';

@@ -35,7 +35,11 @@ class Users{
     }
     getUsernameList(roomId){
         var users = this.users.filter((user)=> user.roomId===roomId);
-        var userList = users.map((user)=> user.username);
+        // var userList = users.map((user)=> user.username);
+        var userList =[];
+        for (let i=0;i<users.length;i++){
+            userList.push({username:users[i].username,id:users[i].id})
+        }
         return userList;
     }
     getUserList(roomId){
