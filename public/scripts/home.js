@@ -7,7 +7,7 @@ function startGame(){
     +'<p>Row1 winner: </p>';
     +'<p>Row2 winner: </p>'
     +'<p>Row3 winner: </p>'
-    document.getElementById('scoreBoard').innerHTML = post;
+    // document.getElementById('scoreBoard').innerHTML = post;
     document.getElementById('balls').innerHTML = '';
     document.getElementById('picked').innerHTML = 'Picking up number!!';
     socket.emit('startGame',(err)=>{
@@ -88,7 +88,7 @@ socket.on('generateTicket',(callback)=>{
                +'<p>Row2 winner: </p>'
                 +'<p>Row3 winner: </p>'
                 +'<p>fullHouse winner: </p>';
-    document.getElementById('scoreBoard').innerHTML = post;
+    // document.getElementById('scoreBoard').innerHTML = post;
     var ticket = generateTicket(100,15)
     console.log("ticket",ticket);
     // return ticket;
@@ -119,6 +119,7 @@ socket.on('generateTicket',(callback)=>{
         }
     }
     // console.log(post);
+    document.getElementById('scoreBoard').innerHTML=''
     document.getElementById('balls').innerHTML = '';
     document.getElementById('ticket').innerHTML = post;
     document.getElementById('waiting').style.display = 'none';

@@ -41,7 +41,7 @@ module.exports = async (roomId,io,games)=>{
         
         
     }
-    var interval = setInterval(fun1,5000);
+    var interval = setInterval(fun1,process.env.NUMBER_INTERVAL||5000);
     // console.log("interval",interval);
     
     

@@ -38,30 +38,27 @@
 
         </div>
         
-        <div id="gaming" style="display: none;text-align: center;">
-            <div style="color: aliceblue;">
-                <p>Housie</p> 
+        <div id="gaming" style="display: none;">
+            <div class="headContainerGaming" style="color: aliceblue; ">
+                <div >Housie</div>
                 <button id="btnRestart" style="display: none;margin: 0 auto;height: 30px; background-color: green;" onclick="restart()">Play again</button>
-                <button id="btnLeave"   style="margin: 0 auto;;height: 30px;float: right; background-color: red;" onclick="leave()">Exit lobby</button>
+                <button id="btnLeave"   style="margin: 0 auto;;height: 30px; background-color: red;" onclick="leave()">Exit lobby</button>
             </div>
             <input id="info" onclick="showInfo()" type="button" value="i" >
             <input id="closeInfo" onclick="hideInfo()" type="button" value="x" >
             <br>
-            <div class="topContainer">
-                <div id="scoreBoard" >
-                    <p>FullHouse winner: </p>
-                    <p>Row1 winner: </p>
-                    <p>Row2 winner: </p>
-                    <p>Row3 winner: </p>
-                </div>
-                <div id="userListGaming">
-                    
-                </div> 
-            </div> 
-            <div id="gamescroll">
-                
-                <div id="board">
-                    <div class="title"><span>Board</span></div><br>
+<!--            <div class="topContainer">-->
+            <div id="userListGaming">
+
+            </div>
+            <div id="scoreBoard" >
+
+            </div>
+            <!--            </div> -->
+            <div id="board">
+
+                <div class="title"><span>Board</span></div><br>
+                <div id="gamescroll">
                     <div id="balls"></div>
                 </div>
                 <br>
