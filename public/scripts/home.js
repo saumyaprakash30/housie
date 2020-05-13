@@ -2,6 +2,12 @@ var socket = io()
 var saveUsername='',saveRoomId='';
 var saveUsers =[]
 
+window.onbeforeunload = ()=>{
+    let msg = 'Do you want to leave lobby?';
+    if(saveUsername)
+        return msg;
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 const paramRoomId = urlParams.get('roomid');
 if(paramRoomId){
@@ -16,7 +22,7 @@ function startGame(){
     +'<p>Row3 winner: </p>'
     // document.getElementById('scoreBoard').innerHTML = post;
     document.getElementById('balls').innerHTML = '';
-    document.getElementById('picked').innerHTML = 'Picking up number!!';
+    
     socket.emit('startGame',(err)=>{
         if(err){
             alert(err);
@@ -113,6 +119,11 @@ socket.on('updateList',(users)=>{
 
 
 socket.on('generateTicket',(callback)=>{
+    //welcome speech
+    
+    utter.text = 'The number is ....'
+    window.speechSynthesis.speak(utter);
+
     var post = '<p>Row1 winner: </p>'
                +'<p>Row2 winner: </p>'
                 +'<p>Row3 winner: </p>'
@@ -154,6 +165,7 @@ socket.on('generateTicket',(callback)=>{
     document.getElementById('waiting').style.display = 'none';
     document.getElementById('userList').style.display = 'none';
     document.getElementById('gaming').style.display = 'block';
+    document.getElementById('picked').innerHTML = 'Picking up number!!';
     document.getElementById('btnRestart').style.display = 'none';
     // document.getElementById('btnRestart').style.display = 'none';
     // document.getElementById('btnLeave').style.display = 'block';
