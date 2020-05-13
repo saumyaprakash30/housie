@@ -222,7 +222,11 @@ function numberCheck(that){
     });
 }
 
+var utter = new SpeechSynthesisUtterance();
+var isMuted = false;
 socket.on('pickedNumber',(pnumber)=>{
+    utter.text = pnumber;
+    window.speechSynthesis.speak(utter);
     // console.log(pnumber);
     document.getElementById('picked').innerHTML = '<div >New Number</div>'+'<span class = "ballPicked">'+pnumber+'</span>';
     // var post = `<span> ${pnumber} </span>`;
@@ -232,6 +236,18 @@ socket.on('pickedNumber',(pnumber)=>{
     document.getElementById('balls').appendChild(post)
     document.getElementById('gamescroll').scrollTop = document.getElementById('gamescroll').scrollHeight;    
 })
+function muteVolume(){
+    if(isMuted){
+        utter.volume=1;
+        document.getElementById('btnMute').innerHTML = "Mute";
+        isMuted=false;
+
+    }else{
+        utter.volume = 0;
+        document.getElementById('btnMute').innerHTML = "Unmute";
+        isMuted = true;
+    }
+}
 socket.on('scoreChange',(winner)=>{
     // console.log(winner);
     var post = '';
@@ -250,6 +266,11 @@ socket.on('scoreChange',(winner)=>{
 
 socket.on('gameOver',(winner)=>{
     console.log("winner",winner);
+    window.speechSynthesis.cancel();
+    utter.rate = 0.8;
+    utter.text = "And the winners are "+ winner[3]+ ','+winner[0]+','+winner[1]+'and'+winner[2]+'.';
+    window.speechSynthesis.speak(utter)
+    // window.speechSynthesis.cancel();
     // console.log(saveUsername,saveUsers[0]);
     document.getElementById('picked').innerHTML = "Game Over!"
     document.getElementById('btnRestart').style.display = 'block';
