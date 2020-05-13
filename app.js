@@ -236,6 +236,21 @@ io.on('connection',(socket)=>{
         
     })
 
+    socket.on('message',(msg)=>{
+        // console.log(msg);
+        let user = users.getUser(socket.id);
+        // console.log(user);
+        
+        if(user){
+            io.to(user.roomId).emit('newMessage',{username:user.username,msg:msg});
+        }
+        
+
+
+        // return callback('received')
+        
+    })
+
 })
 
 // var home = require('./routes/home');

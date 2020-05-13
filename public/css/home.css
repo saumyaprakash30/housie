@@ -67,19 +67,45 @@
     font-weight: 300;
     background: rgb(222, 233, 238);
     padding: 2%;
-    width: 80%;
+    width: 45%;
     margin: 0 auto;
     border-radius: 5px;
     margin-top: 5%;
+    word-break: break-all;
     /* width:   %; */
     /* width: 20%;
      margin-top: 5% */
-    right: 0;
+    /* right: 0; */
+    float: left;
     
 }
+#chat{
+    display: none;
+    font-size: 25px;
+    font-weight: 300;
+    background: rgb(222, 233, 238);
+    padding: 2%;
+    width: 45%;
+    margin: 0 auto;
+    border-radius: 5px;
+    margin-top: 5%;
+    float: right;
+}
+#chatHistory{
+    height: 150px;
+    background-color: white;
+    overflow-y: scroll;
+}
+.chatUsername{
+    line-break: auto;
+    color: red;
+}
+.chatMessage{
+line-break: auto;}
 #btnLULG{
     display: none   ;
 }
+
 #info{
     border-radius: 50%;
     position: fixed;
@@ -364,8 +390,9 @@ body{
 @media screen and (max-width:800px){
     #userList{
         /* position: relative; */
-        
-        right: auto;
+        width: 80%;
+        float: unset;
+        /* right: auto; */
     }
     .title{
         /* background-color: green; */
@@ -463,6 +490,9 @@ body{
         margin: 0 auto;
         float: none;
     }
-    
+    #chat{
+        float: unset;
+        width: 95%;
+    }
 
 }

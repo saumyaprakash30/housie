@@ -33,14 +33,22 @@
             <div id="roomDetail"></div>
             <button id="startGame" class="decor" onclick="startGame()" >Start Game</button>
             <button id="btnLeaveWaiting" class="decor" style="background-color: red;"  onclick="leave()">Exit lobby</button>
-            
+            <button id="btnMute" onclick="muteVolume(this)">mute</button>
             <!-- <button value="2" onclick="numberCheck(this)">check</button> -->
-
+            
         </div>
+        <div id="chat">
+            <div id="chatHistory">
+
+            </div>
+            <input id="message" placeholder="type a message" type="text">
+            <button id="btnSend" onclick="sendMessage()">Send</button>
+        </div>
+        <div id="userList" style="display: none;"></div>
         
         <div id="gaming" style="display: none;">
             <div class="headContainerGaming" style="color: aliceblue; ">
-                <div ><button id="btnMute" onclick="muteVolume()">mute</button> Housie</div>
+                <div ><button id="btnMute" onclick="muteVolume(this)">mute</button> Housie</div>
                 <button id="btnRestart" style="display: none;margin: 0 auto;height: 30px; background-color: green;" onclick="restart()">Play again</button>
                 <button id="btnLeave"   style="margin: 0 auto;;height: 30px; background-color: red;" onclick="leave()">Exit lobby</button>
             </div>
@@ -73,7 +81,6 @@
         </div>
         
 
-        <div id="userList" style="display: none;"></div>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/scripts/home.js"></script>

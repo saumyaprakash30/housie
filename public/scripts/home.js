@@ -66,6 +66,7 @@ function joinRoom(){
             console.log("joined sucessful");
             document.getElementById('joining').style.display = 'none';
             document.getElementById('waiting').style.display = 'block';
+            document.getElementById('chat').style.display = 'block';
             document.getElementById('userList').style.display = 'block';
             document.getElementById('roomDetail').innerHTML= '<h3>Room Id - '+saveRoomId+'</h3>'+'<span >Invite link : </span><br><span  id="urlToShare" style="background-color: #1db0ff;margin: 0 auto" >'+urlToShare+'</span><br><button onclick="copyLink()">copyLink</button>';
         }
@@ -163,6 +164,7 @@ socket.on('generateTicket',(callback)=>{
     document.getElementById('balls').innerHTML = '';
     document.getElementById('ticket').innerHTML = post;
     document.getElementById('waiting').style.display = 'none';
+    document.getElementById('chat').style.display = 'none';
     document.getElementById('userList').style.display = 'none';
     document.getElementById('gaming').style.display = 'block';
     document.getElementById('picked').innerHTML = 'Picking up number!!';
@@ -249,15 +251,15 @@ socket.on('pickedNumber',(pnumber)=>{
     document.getElementById('balls').appendChild(post)
     document.getElementById('gamescroll').scrollTop = document.getElementById('gamescroll').scrollHeight;    
 })
-function muteVolume(){
+function muteVolume(that){
     if(isMuted){
         utter.volume=1;
-        document.getElementById('btnMute').innerHTML = "Mute";
+        that.innerHTML = "Mute";
         isMuted=false;
 
     }else{
         utter.volume = 0;
-        document.getElementById('btnMute').innerHTML = "Unmute";
+        that.innerHTML = "Unmute";
         isMuted = true;
     }
 }
@@ -321,3 +323,32 @@ function hideInfo(){
     display = document.getElementById('closeInfo').style.display = 'none';
     display = document.getElementById('userListGaming').style.display = 'none';;
 }
+
+//chat
+
+function sendMessage(){
+    let msg = document.getElementById('message').value;
+    if(msg){
+        socket.emit('message',msg)
+    }
+}
+
+socket.on('newMessage',(chat)=>{
+    // console.log(chat);
+    let ele = document.getElementById('chatHistory');
+    let post = document.createElement('div');
+    
+    post.innerHTML = '<span class = "chatUsername">'+chat.username+': </span>'
+    + '<span class = "chatMessage" >    '+chat.msg+'</span>';
+    ele.appendChild(post);
+    document.getElementById('message').value = '';
+    document.getElementById('chatHistory').scrollTop = document.getElementById('chatHistory').scrollHeight;
+    
+})
+
+document.getElementById('message').addEventListener("keyup",(e)=>{
+    if(e.keyCode===13){
+        event.preventDefault();
+        document.getElementById('btnSend').click();
+    }
+})
