@@ -225,6 +225,7 @@ function numberCheck(that){
 var utter = new SpeechSynthesisUtterance();
 var isMuted = false;
 socket.on('pickedNumber',(pnumber)=>{
+    window.speechSynthesis.cancel();
     utter.text = pnumber;
     window.speechSynthesis.speak(utter);
     // console.log(pnumber);
