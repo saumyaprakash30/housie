@@ -283,7 +283,7 @@ socket.on('gameOver',(winner)=>{
     console.log("winner",winner);
     window.speechSynthesis.cancel();
     utter.rate = 0.8;
-    utter.text = "And the winners are "+ winner[3]+ ','+winner[0]+','+winner[1]+'and'+winner[2]+'.';
+    utter.text = "And the winner is "+ winner[3]+'.';
     window.speechSynthesis.speak(utter)
     // window.speechSynthesis.cancel();
     // console.log(saveUsername,saveUsers[0]);
