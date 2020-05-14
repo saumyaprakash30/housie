@@ -4,15 +4,21 @@ var saveUsers =[]
 
 window.onbeforeunload = ()=>{
     let msg = 'Do you want to leave lobby?';
-    if(saveUsername)
+    if(saveUsername){
+        
         return msg;
+    }
 }
 
 const urlParams = new URLSearchParams(window.location.search);
 const paramRoomId = urlParams.get('roomid');
 if(paramRoomId){
+    document.getElementById('btnEditRI').style.display = 'block';
     document.getElementById('roomId').value = paramRoomId;
     document.getElementById('roomId').disabled = 'disabled';
+}
+function editRoomId(){
+    document.getElementById('roomId').disabled = '';
 }
 
 function startGame(){
@@ -302,6 +308,7 @@ function restart(){
     // document.getElementById('btnLeave').style.display = 'none';
     document.getElementById('gaming').style.display = 'none';
     document.getElementById('waiting').style.display = 'block';
+    document.getElementById('chat').style.display = 'block';
     document.getElementById('userList').style.display = 'block';
     
     // if(saveUsers[0]==saveUsername){

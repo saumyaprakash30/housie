@@ -96,6 +96,7 @@
     background-color: white;
     overflow-y: scroll;
 }
+
 .chatUsername{
     line-break: auto;
     color: red;
