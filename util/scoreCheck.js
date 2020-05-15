@@ -13,7 +13,9 @@ module.exports = async(roomId,id,io,games,users)=>{
         io.to(roomId).emit('scoreChange',winner);
         if(r4){
             games.setGameOver(roomId);
-            io.to(roomId).emit('gameOver',winner);
+            games.setIsStarted(roomId,false);
+
+            io.to(roomId).emit('gameOver',winner);  
         }
     }
     

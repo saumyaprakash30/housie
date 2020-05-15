@@ -45,10 +45,11 @@ io.on('connection',(socket)=>{
             if(game && game.isStarted ){
                 // socket.emit('generateTicket',2)
                 // console.log("game stat",game.gameOver);
-                if(!game.gameOver)
+                if(!game.gameOver || game.isStarted)
                 return calback('Game in progress!')
             }
             users.addUser(socket.id,param.username,param.roomId,admin);
+            io.to(param.roomId).emit('newMessage',{username:"Admin",msg:param.username+" joined!"})
             // console.log(users.getAllUsers());
             socket.join(param.roomId);
             console.log(`${param.username} joined ${param.roomId}`);
@@ -87,9 +88,11 @@ io.on('connection',(socket)=>{
     socket.on('disconnect',()=>{
         console.log(`user disconnected ${socket.id  }`);
         var deletedUser = users.removeUser(socket.id);
+        io.to(deletedUser.roomId).emit('newMessage',{username:"Admin",msg:deletedUser.username+" disconnected!"})
         if(deletedUser && deletedUser.admin==true ){
             if(users.getUserCount(deletedUser.roomId)){
                 users.setAdmin(deletedUser.roomId);
+                
 
 
             }else{

@@ -359,3 +359,8 @@ document.getElementById('message').addEventListener("keyup",(e)=>{
         document.getElementById('btnSend').click();
     }
 })
+
+socket.on('disconnect',()=>{
+    alert('Server disconnected! Please reconnect.');
+    window.location = '/';
+})

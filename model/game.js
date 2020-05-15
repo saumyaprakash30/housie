@@ -18,6 +18,12 @@ class Game{
             fullHouseWinner:null
         });
     }
+    setIsStarted(roomId,val){
+        var index = this.games.indexOf(this.getGame(roomId)[0]);
+        if(index!=-1){
+            this.games[index].isStarted = val;
+        }
+    }
     setGameOver(roomId){
         var index = this.games.indexOf(this.getGame(roomId)[0]);
         console.log("index",index);
