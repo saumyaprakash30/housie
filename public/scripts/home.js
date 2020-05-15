@@ -188,7 +188,7 @@ var generateTicket = (max,count)=>{
     var rowEleCount =0;
     while(uniqueNubers.length<count){
         if(rowEleCount==0){
-            var randomNumber = Math.floor(Math.random()*(20))+rowEleCount*10*2+1;    
+            var randomNumber = Math.floor(Math.random()*(19))+rowEleCount*10*2+1;    
         }
         else if(rowEleCount==4){
             var randomNumber = Math.floor(Math.random()*(19))+rowEleCount*10*2;    
