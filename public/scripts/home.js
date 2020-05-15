@@ -18,7 +18,7 @@ if(paramRoomId){
     document.getElementById('roomId').disabled = 'disabled';
 }
 function editRoomId(){
-    document.getElementById('roomId').disabled = '';
+    window.location = '/'
 }
 
 function startGame(){
