@@ -88,11 +88,11 @@ io.on('connection',(socket)=>{
     socket.on('disconnect',()=>{
         console.log(`user disconnected ${socket.id  }`);
         var deletedUser = users.removeUser(socket.id);
-        io.to(deletedUser.roomId).emit('newMessage',{username:"Admin",msg:deletedUser.username+" disconnected!"})
+        
         if(deletedUser && deletedUser.admin==true ){
             if(users.getUserCount(deletedUser.roomId)){
                 users.setAdmin(deletedUser.roomId);
-                
+                io.to(deletedUser.roomId).emit('newMessage',{username:"Admin",msg:deletedUser.username+" disconnected!"})
 
 
             }else{
